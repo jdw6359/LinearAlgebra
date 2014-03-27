@@ -11,7 +11,7 @@
  **********************************************************************/
      #include <stdio.h>
      #include <gsl/gsl_linalg.h>
-     
+
      int main (void) {
        /* Local variables */
        int i, j, k, l; /* Indices and counters       */
