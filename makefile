@@ -16,11 +16,14 @@ GSLFLAGS = -lgsl -lgslcblas
 make: linalg gsl_sample
 
 
-linalg: hw5.o
-	$(CC) $(CFLAGS) -o linalg hw5.o 
+linalg: hw5.o linalg.o
+	$(CC) $(CFLAGS) -o linalg hw5.o linalg.o
 
 hw5.o: hw5.c
 	$(CC) $(CFLAGS) -c hw5.c
+
+linalg.o: linalg.c
+	$(CC) $(CFLAGS) -c linalg.c
 
 gsl_sample: gsl_sample.o
 	$(CC) $(CFLAGS) -o gsl_sample gsl_sample.o $(GSLFLAGS)
@@ -44,4 +47,5 @@ test: linalg
 
 clean:
 	rm -f *.o
-
+	rm -f *.save
+	rm -f *.gch

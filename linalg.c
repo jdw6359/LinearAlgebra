@@ -1,6 +1,6 @@
  /*********************************************************
  * Linear Algebra Module
- * Rev: 10/24/2013,  Juan C. Cockburn  (jcck@ieee.org)             
+ * Rev: 10/24/2013,  Juan C. Cockburn  (jcck@ieee.org)
  *********************************************************/
 
 #include "linalg.h"

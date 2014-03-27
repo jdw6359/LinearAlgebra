@@ -10,8 +10,15 @@
 /* include necessary c libraries */
 #include <stdlib.h>
 #include <stdio.h>
+#include "linalg.h"
 
 int main(int argc, char *argv[]){
+
+	/* Declare vars that hold the number of rows and columns of Matrix */
+	int numRows, numCols;
+
+	/* Declare pointer to matrix */
+	MatElement **matrix;
 
 	/* Check to make sure there are the correct number of cmdline args */
 	if(argc==2){
@@ -31,12 +38,6 @@ int main(int argc, char *argv[]){
 
 		}else{
 
-			/* File was opened properly, execute program as expected */
-			fprintf(stdout, "Executing Program.....\n");
-
-			/* Declare vars for numRows and numCols of matrix A */
-			int numRows, numCols;
-
 			/* Scan numRows and numCols from file */
 			fscanf(inputFile, "%d %d", &numRows, &numCols);
 
@@ -45,9 +46,13 @@ int main(int argc, char *argv[]){
 
 				/* numRows and numCols dont match, alert and exit */
 				fprintf(stdout, "Matrix has %d rows and %d columns, not a square matrix.\nExiting...\n", numRows, numCols);
-				return 2;
-
+				return 0;
 			}
+
+			/* Call matrix_alloc to allocate memory for matrix */
+			matrix=matrix_alloc(numRows,numCols);
+
+			fprintf(stdout, "Matrix allocated\n");
 
 
 
