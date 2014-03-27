@@ -34,6 +34,23 @@ int main(int argc, char *argv[]){
 			/* File was opened properly, execute program as expected */
 			fprintf(stdout, "Executing Program.....\n");
 
+			/* Declare vars for numRows and numCols of matrix A */
+			int numRows, numCols;
+
+			/* Scan numRows and numCols from file */
+			fscanf(inputFile, "%d %d", &numRows, &numCols);
+
+			/* Check that numRows and numCols are equal */
+			if(numRows!=numCols){
+
+				/* numRows and numCols dont match, alert and exit */
+				fprintf(stdout, "Matrix has %d rows and %d columns, not a square matrix.\nExiting...\n", numRows, numCols);
+				return 2;
+
+			}
+
+
+
 		}
 		/* End check for valid input file */
 
