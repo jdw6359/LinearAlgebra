@@ -14,11 +14,15 @@
 
 int main(int argc, char *argv[]){
 
-	/* Declare vars that hold the number of rows and columns of Matrix */
+	/* Declare vars that hold numRow and numCols values scanned from txt file */
 	int numRows, numCols;
 
 	/* Declare pointer to matrix */
 	MatElement **matrix;
+
+	/* Declare row and column values to loop over rows / cols */
+	int rowCounter, colCounter;
+
 
 	/* Check to make sure there are the correct number of cmdline args */
 	if(argc==2){
@@ -52,7 +56,45 @@ int main(int argc, char *argv[]){
 			/* Call matrix_alloc to allocate memory for matrix */
 			matrix=matrix_alloc(numRows,numCols);
 
-			fprintf(stdout, "Matrix allocated\n");
+			/* For each row, read in value for each column, in
+			 * addition to permutation value at end of row */
+			for(rowCounter=0;rowCounter<numRows;rowCounter++){
+
+				double permValue;
+
+				/* Loop over cols of each row */
+				for(colCounter=0;colCounter<numCols;colCounter++){
+
+					double matValue;
+
+					printf("scan mat value\n");
+
+
+					/* Grab value for matrix at A[rowCounter][colCounter] */
+					fscanf(inputFile, "%lf", &matValue);
+
+					printf("Scanning successful\n");
+
+					printf("Setting value at %d %d\n", rowCounter, colCounter);
+					matrix[rowCounter][colCounter]=matValue;
+
+					/* Set matrix value at i,j */
+
+
+
+				}
+				/* End for over cols */
+				printf("\n");
+
+				/* Scan value for permutation vector */
+				fscanf(inputFile, "%lf", &permValue);
+
+			}
+			/* End for over rows */
+
+			matrix_print(matrix, "%g", numRows, numCols);
+
+
 
 
 

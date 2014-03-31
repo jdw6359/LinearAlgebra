@@ -23,16 +23,16 @@ void matrix_free(MatElement **A) {
   free(A[0]);
   free(A);
 }
- 
+
 /* Print matrix elements */
 void matrix_print(MatElement **A, char * format, int nr, int nc) {
-  int i,j;
-  for (i=0; i<nr; ++i) { 
-    for (j=0; j<nc; ++j) 
-	  printf(format, A[i][j]);
-  putchar('\n');
-  }
-  putchar('\n');
+	int i,j;
+	for (i=0; i<nr; i++) {
+		for (j=0; j<nc; j++){
+			fprintf(stdout,"%g", A[i][j]);
+		}
+		putchar('\n');
+	}
 }
 
 /* Create and Identity Matrix */

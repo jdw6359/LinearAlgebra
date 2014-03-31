@@ -43,8 +43,6 @@ test: linalg
 	./linalg ge4.txt
 
 
-
-
 clean:
 	rm -f *.o
 	rm -f *.save
