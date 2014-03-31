@@ -29,7 +29,7 @@ void matrix_print(MatElement **A, char * format, int nr, int nc) {
 	int i,j;
 	for (i=0; i<nr; i++) {
 		for (j=0; j<nc; j++){
-			fprintf(stdout,"%g", A[i][j]);
+			fprintf(stdout," %g ", A[i][j]);
 		}
 		putchar('\n');
 	}
@@ -44,7 +44,7 @@ MatElement **matrix_identity(int n) {
   return A;
 }
 
-int linalg_LU_decomp(MatElement *A, MatElement *p){
+int linalg_LU_decomp(MatElement **A, MatElement **p){
 
 	fprintf(stdout, "decomp called\n");
 	return 0;
@@ -57,7 +57,7 @@ int linalg_LU_decomp(MatElement *A, MatElement *p){
  * permutaion vector p that defines the permutation matrix P
  */
 
-int linalg_LU_solve(MatElement *A, MatElement *p, MatElement *b, MatElement *x){
+int linalg_LU_solve(MatElement **A, MatElement **p, MatElement **b, MatElement **x){
 
 	fprintf(stdout, "solve called\n");
 	return 0;
@@ -69,7 +69,7 @@ int linalg_LU_solve(MatElement *A, MatElement *p, MatElement *b, MatElement *x){
  * the solution in vector x.
  */
 
-void print_plu(MatElement *A, MatElement *p){
+void print_plu(MatElement **A, MatElement **p){
 
 	fprintf(stdout, "print called\n");
 

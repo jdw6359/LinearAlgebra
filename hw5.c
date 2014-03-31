@@ -54,46 +54,41 @@ int main(int argc, char *argv[]){
 			}
 
 			/* Call matrix_alloc to allocate memory for matrix */
-			matrix=matrix_alloc(numRows,numCols);
+			matrix=matrix_alloc(numRows,numCols+1);
 
 			/* For each row, read in value for each column, in
 			 * addition to permutation value at end of row */
 			for(rowCounter=0;rowCounter<numRows;rowCounter++){
 
+				/* Declare variable for value stored in perm vector */
 				double permValue;
 
 				/* Loop over cols of each row */
 				for(colCounter=0;colCounter<numCols;colCounter++){
 
+					/* Declare variable for value stored in amtrix */
 					double matValue;
-
-					printf("scan mat value\n");
-
 
 					/* Grab value for matrix at A[rowCounter][colCounter] */
 					fscanf(inputFile, "%lf", &matValue);
 
-					printf("Scanning successful\n");
-
-					printf("Setting value at %d %d\n", rowCounter, colCounter);
+					/* Set matrix value at [rowCount][colCount] */
 					matrix[rowCounter][colCounter]=matValue;
-
-					/* Set matrix value at i,j */
-
-
 
 				}
 				/* End for over cols */
-				printf("\n");
 
 				/* Scan value for permutation vector */
 				fscanf(inputFile, "%lf", &permValue);
 
+				/* Set value at 0,rowCounter */
+				matrix[rowCounter][numCols]=permValue;
+
 			}
 			/* End for over rows */
 
-			matrix_print(matrix, "%g", numRows, numCols);
-
+			/* Print original matrix */
+			matrix_print(matrix, "%g", numRows, numCols+1);
 
 
 
