@@ -42,7 +42,7 @@ MatElement **matrix_identity(int n);
  * Output: An n times n identity matrix
  */
 
-int linalg_LU_decomp(MatElement **A, MatElement **p);
+int linalg_LU_decomp(MatElement **A, MatElement **b, int dim);
 /* Implements the in place Gaussian Elimination process with
  * partial pivoting. It should take as input arguments the
  * matrix A and return the results in the overwritten matrix A

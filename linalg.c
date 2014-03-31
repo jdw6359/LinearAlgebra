@@ -44,9 +44,32 @@ MatElement **matrix_identity(int n) {
   return A;
 }
 
-int linalg_LU_decomp(MatElement **A, MatElement **p){
+int linalg_LU_decomp(MatElement **A, MatElement **b, int dim){
 
-	fprintf(stdout, "decomp called\n");
+	int k,row,col;
+
+	double pivot;
+
+
+	fprintf(stdout,"Decomp called\n");
+
+
+	for(k=0;k<dim;k++){
+
+		fprintf(stdout,"This is the %d th iteration\n", k);
+
+		pivot=A[k][k];
+
+		fprintf(stdout, "Pivot set to: %g\n", pivot);
+
+		for(row=k+1;row<dim;row++){
+			fprintf(stdout,"Row is: %d",row);
+		}
+
+	}
+	/* End k looping */
+
+
 	return 0;
 
 }
