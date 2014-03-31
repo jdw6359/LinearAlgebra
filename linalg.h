@@ -35,6 +35,11 @@ void matrix_print(MatElement **A, char *fs, int nr, int nc);
  * number of rows nr, and number of columns nc
  */
 
+void right_hand_print(MatElement **A, char *fs, int nr, int nc);
+/*
+ * right_hand_print prints right hand side of augmented matrix
+ */
+
 MatElement **matrix_identity(int n);
 /*
  * matrix_identity generates and indentity matrix
@@ -42,7 +47,7 @@ MatElement **matrix_identity(int n);
  * Output: An n times n identity matrix
  */
 
-int linalg_LU_decomp(MatElement **A, MatElement **b, int dim);
+int linalg_LU_decomp(MatElement **A, int dim);
 /* Implements the in place Gaussian Elimination process with
  * partial pivoting. It should take as input arguments the
  * matrix A and return the results in the overwritten matrix A

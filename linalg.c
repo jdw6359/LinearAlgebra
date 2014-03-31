@@ -29,11 +29,22 @@ void matrix_print(MatElement **A, char * format, int nr, int nc) {
 	int i,j;
 	for (i=0; i<nr; i++) {
 		for (j=0; j<nc; j++){
-			fprintf(stdout," %g ", A[i][j]);
+			fprintf(stdout,format, A[i][j]);
 		}
 		putchar('\n');
 	}
 }
+
+/* Print right-hand side elements */
+void right_hand_print(MatElement **A, char * format, int nr, int nc){
+	int i;
+	for(i=0;i<nr;i++){
+		fprintf(stdout,format,A[i][nc]);
+	}
+
+}
+
+
 
 /* Create and Identity Matrix */
 MatElement **matrix_identity(int n) {
@@ -44,7 +55,7 @@ MatElement **matrix_identity(int n) {
   return A;
 }
 
-int linalg_LU_decomp(MatElement **A, MatElement **b, int dim){
+int linalg_LU_decomp(MatElement **A, int dim){
 
 	int k,row,col;
 
@@ -53,17 +64,26 @@ int linalg_LU_decomp(MatElement **A, MatElement **b, int dim){
 
 	fprintf(stdout,"Decomp called\n");
 
-
 	for(k=0;k<dim;k++){
 
 		fprintf(stdout,"This is the %d th iteration\n", k);
 
+		/* Get Pivot */
 		pivot=A[k][k];
 
 		fprintf(stdout, "Pivot set to: %g\n", pivot);
 
+		/* Apply the pivot in place to all values directly below */
 		for(row=k+1;row<dim;row++){
 			fprintf(stdout,"Row is: %d",row);
+			/* Rewrite the pivot at rows, k */
+			A[row][k]=A[row][k]/pivot;
+		}
+
+		for(row=k+1;row<dim;row++){
+			for(col=k+1;col<dim+1;col++){
+				A[row][col]=A[row][col] - A[row][k] * A[k][col];
+			}
 		}
 
 	}
