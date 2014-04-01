@@ -35,17 +35,6 @@ void matrix_print(MatElement **A, char * format, int nr, int nc) {
 	}
 }
 
-/* Print right-hand side elements */
-void right_hand_print(MatElement **A, char * format, int nr, int nc){
-	int i;
-	for(i=0;i<nr;i++){
-		fprintf(stdout,format,A[i][nc]);
-	}
-
-}
-
-
-
 /* Create and Identity Matrix */
 MatElement **matrix_identity(int n) {
   int i;
@@ -55,11 +44,13 @@ MatElement **matrix_identity(int n) {
   return A;
 }
 
-int linalg_LU_decomp(MatElement **A, int dim){
+int linalg_LU_decomp(MatElement **A, MatElement **b, int dim){
 
-	int k,row,col;
+	int k,row,col,colHolder;
 
 	double pivot;
+
+
 
 
 	fprintf(stdout,"Decomp called\n");
@@ -81,9 +72,12 @@ int linalg_LU_decomp(MatElement **A, int dim){
 		}
 
 		for(row=k+1;row<dim;row++){
-			for(col=k+1;col<dim+1;col++){
+			for(col=k+1;col<dim;col++){
 				A[row][col]=A[row][col] - A[row][k] * A[k][col];
+				colHolder=col;
 			}
+			b[row][0]=b[row][0] - A[row][k] * A[k][colHolder];
+
 		}
 
 	}

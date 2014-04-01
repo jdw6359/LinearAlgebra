@@ -20,6 +20,9 @@ int main(int argc, char *argv[]){
 	/* Declare pointer to matrix */
 	MatElement **matrix;
 
+	/* Declare pointer to vector */
+	MatElement **vector;
+
 	/* Declare row and column values to loop over rows / cols */
 	int rowCounter, colCounter;
 
@@ -54,14 +57,18 @@ int main(int argc, char *argv[]){
 			}
 
 			/* Call matrix_alloc to allocate memory for matrix */
-			matrix=matrix_alloc(numRows,numCols+1);
+			matrix=matrix_alloc(numRows,numCols);
+
+			vector=matrix_alloc(numRows,1);
 
 			/* For each row, read in value for each column, in
 			 * addition to permutation value at end of row */
 			for(rowCounter=0;rowCounter<numRows;rowCounter++){
 
+				double permValue;
+
 				/* Loop over cols of each row */
-				for(colCounter=0;colCounter<numCols+1;colCounter++){
+				for(colCounter=0;colCounter<numCols;colCounter++){
 
 					/* Declare variable for value stored in amtrix */
 					double matValue;
@@ -75,6 +82,10 @@ int main(int argc, char *argv[]){
 				}
 				/* End for over cols */
 
+				fscanf(inputFile, "%lf", &permValue);
+
+				vector[rowCounter][0]=permValue;
+
 			}
 			/* End for over rows */
 
@@ -82,17 +93,16 @@ int main(int argc, char *argv[]){
 
 			/* Print original matrix and vector */
 			matrix_print(matrix, " %g ", numRows, numCols);
-			right_hand_print(matrix, " %g\n", numRows, numCols);
+			matrix_print(vector, " %g ", numRows,1);
 
 			/* make call to decomp */
-			linalg_LU_decomp(matrix,numRows);
+			linalg_LU_decomp(matrix,vector,numRows);
 
 			fprintf(stdout,"New matrix: \n");
 
 			/* Print new matrix */
 			matrix_print(matrix, " %g ", numRows,numCols);
-			right_hand_print(matrix, " %g\n", numRows, numCols);
-
+			matrix_print(vector, " %g ", numRows,1);
 		}
 		/* End check for valid input file */
 
