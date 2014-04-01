@@ -18,6 +18,16 @@ MatElement **matrix_alloc(int nr, int nc) {
   return A;
 }
 
+VectorElement *vector_alloc(int size){
+
+	VectorElement *v;
+
+	v=malloc(size * sizeof(VectorElement));
+
+	return v;
+
+}
+
 /* Release mamory used by matrix */
 void matrix_free(MatElement **A) {
   free(A[0]);
@@ -31,7 +41,9 @@ void matrix_print(MatElement **A, char * format, int nr, int nc) {
 		for (j=0; j<nc; j++){
 			fprintf(stdout,format, A[i][j]);
 		}
-		putchar('\n');
+		/* Print out a pipe character as well as the value in the
+		   "Solution" vector */
+		fprintf(stdout," | %g\n", A[i][nc]);
 	}
 }
 
@@ -44,9 +56,9 @@ MatElement **matrix_identity(int n) {
   return A;
 }
 
-int linalg_LU_decomp(MatElement **A, MatElement **b, int dim){
+int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 
-	int k,row,col,colHolder;
+	int k,row,col;
 
 	double pivot;
 
@@ -72,11 +84,9 @@ int linalg_LU_decomp(MatElement **A, MatElement **b, int dim){
 		}
 
 		for(row=k+1;row<dim;row++){
-			for(col=k+1;col<dim;col++){
+			for(col=k+1;col<dim+1;col++){
 				A[row][col]=A[row][col] - A[row][k] * A[k][col];
-				colHolder=col;
 			}
-			b[row][0]=b[row][0] - A[row][k] * A[k][colHolder];
 
 		}
 

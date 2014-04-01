@@ -11,6 +11,7 @@
 
 /* Change MatElement according to the matrix type */
 typedef double MatElement; /* For Real matrices */
+typedef int VectorElement; /* For simple vector such as permutation vector */
 
 
 /* Function Prototypes */
@@ -21,6 +22,8 @@ MatElement **matrix_alloc(int nr, int nc);
  * Inputs: nr and nc (number of rows and columns
  * Output: pointer to a "matrix"
  */
+
+VectorElement *vector_alloc(int size);
 
 void matrix_free(MatElement **A);
 /*
@@ -47,7 +50,7 @@ MatElement **matrix_identity(int n);
  * Output: An n times n identity matrix
  */
 
-int linalg_LU_decomp(MatElement **A, MatElement **b, int dim);
+int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim);
 /* Implements the in place Gaussian Elimination process with
  * partial pivoting. It should take as input arguments the
  * matrix A and return the results in the overwritten matrix A
