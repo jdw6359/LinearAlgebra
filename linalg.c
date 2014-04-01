@@ -18,20 +18,28 @@ MatElement **matrix_alloc(int nr, int nc) {
   return A;
 }
 
+/* Allocate memory space for vector, all at once */
 VectorElement *vector_alloc(int size){
 
+	/* Declare pointer variable to vector */
 	VectorElement *v;
 
+	/* Allocate the memory */
 	v=malloc(size * sizeof(VectorElement));
 
+	/* Return pointer to the allocated vector */
 	return v;
-
 }
 
-/* Release mamory used by matrix */
+/* Release memory used by matrix */
 void matrix_free(MatElement **A) {
   free(A[0]);
   free(A);
+}
+
+/* Release memory used by the vector */
+void vector_free(VectorElement *p){
+	free(p);
 }
 
 /* Print matrix elements */

@@ -96,6 +96,14 @@ int main(int argc, char *argv[]){
 			/* Print new matrix */
 			matrix_print(matrix, " %g ", numRows,numCols);
 
+
+			fprintf(stdout,"Freeing matrix\n");
+			matrix_free(matrix);
+
+			fprintf(stdout,"Freeing vector\n");
+			vector_free(vector);
+
+
 		}
 		/* End check for valid input file */
 

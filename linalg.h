@@ -13,7 +13,6 @@
 typedef double MatElement; /* For Real matrices */
 typedef int VectorElement; /* For simple vector such as permutation vector */
 
-
 /* Function Prototypes */
 
 MatElement **matrix_alloc(int nr, int nc);
@@ -24,11 +23,23 @@ MatElement **matrix_alloc(int nr, int nc);
  */
 
 VectorElement *vector_alloc(int size);
+/*
+ * vector_alloc Allocates memory space for a vector
+ * Inputs: size (number of "rows": stored in continuous memory,
+ * but are representative of rows
+ * Output: Pointer to a vector
+ */
 
 void matrix_free(MatElement **A);
 /*
  * matrix_free  releases memory space of a matrix
  * Inputs: the "matrix" to be released
+ */
+
+void vector_free(VectorElement *v);
+/*
+ * vector_free releases memory space of a vector
+ * Inputs: the vector to be released
  */
 
 void matrix_print(MatElement **A, char *fs, int nr, int nc);
