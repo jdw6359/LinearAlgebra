@@ -61,6 +61,10 @@ int main(int argc, char *argv[]){
 			/* Call vector_alloc to allocate memory for vector */
 			vector=vector_alloc(numRows);
 
+			/* Call perm_vector_initialize to initialize values of
+			   perm vector used in the elimination process */
+			perm_vector_initialize(vector, numRows);
+
 			/* For each row, read in value for each column, in
 			 * addition to permutation value at end of row */
 			for(rowCounter=0;rowCounter<numRows;rowCounter++){
@@ -89,7 +93,7 @@ int main(int argc, char *argv[]){
 			matrix_print(matrix, " %g ", numRows, numCols);
 
 			/* make call to decomp */
-
+			linalg_LU_decomp(matrix,vector,numRows);
 
 			fprintf(stdout,"New matrix: \n");
 

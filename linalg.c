@@ -55,6 +55,28 @@ void matrix_print(MatElement **A, char * format, int nr, int nc) {
 	}
 }
 
+/* Print vector elements */
+void vector_print(VectorElement *v, char * format, int size){
+	int i;
+	for(i=0;i<size;i++){
+		fprintf(stdout,format,v[i]);
+	}
+	fprintf(stdout,"\n");
+}
+
+/* Initialize the values in the permutation vector from values 1 -> size */
+void perm_vector_initialize(VectorElement *v, int size){
+
+	/* Declare counter */
+	int i;
+
+	/* Set values of vector from 1 -> size */
+	for(i=0;i<size;i++){
+		v[i]=(i+1);
+	}
+
+}
+
 /* Create and Identity Matrix */
 MatElement **matrix_identity(int n) {
   int i;
@@ -66,43 +88,58 @@ MatElement **matrix_identity(int n) {
 
 int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 
-	int k,row,col;
-
-	double pivot;
-
-
-
+	int k,row,col,pivotCounter, pivotIndex;
+	double pivot, maxPivot;
 
 	fprintf(stdout,"Decomp called\n");
-
+/*
 	for(k=0;k<dim;k++){
-
+*/
+		k=0;
 		fprintf(stdout,"This is the %d th iteration\n", k);
 
-		/* Get Pivot */
-		pivot=A[k][k];
+		/* Initially set pivotIndex to k, will stay here unless changed */
+		pivotIndex=k;
+		maxPivot=A[k][k];
+		for(pivotCounter=k;pivotCounter<dim;pivotCounter++){
+
+			/* Set pivot to value at kth row, in the set column */
+			pivot=A[pivotCounter][k];
+			if(pivot>maxPivot){
+				maxPivot=pivot;
+				pivotIndex=pivotCounter;
+			}
+		}
+
+		pivot=maxPivot;
+
+		if(k!=pivotIndex){
+			fprintf(stdout,"swaps need to be made between %d and %d\n",k,pivotIndex);
+		}
+
+
 
 		fprintf(stdout, "Pivot set to: %g\n", pivot);
 
-		/* Apply the pivot in place to all values directly below */
 		for(row=k+1;row<dim;row++){
 			fprintf(stdout,"Row is: %d",row);
-			/* Rewrite the pivot at rows, k */
 			A[row][k]=A[row][k]/pivot;
 		}
 
 		for(row=k+1;row<dim;row++){
+
 			for(col=k+1;col<dim+1;col++){
 				A[row][col]=A[row][col] - A[row][k] * A[k][col];
 			}
 
 		}
-
+/*
 	}
-	/* End k looping */
-
+*/
 
 	return 0;
+
+
 
 }
 /* Implements the in place Gaussian Elimination process with

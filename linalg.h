@@ -49,9 +49,21 @@ void matrix_print(MatElement **A, char *fs, int nr, int nc);
  * number of rows nr, and number of columns nc
  */
 
+void vector_print(VectorElement *v, char *fs, int size);
+/*
+ * vector_print prints a vector
+ * Inputs: the vector v, a formatting string fs,
+ * size of vector size
+ */
+
 void right_hand_print(MatElement **A, char *fs, int nr, int nc);
 /*
  * right_hand_print prints right hand side of augmented matrix
+ */
+
+void perm_vector_initialize(VectorElement *v, int size);
+/*
+ * function that will set vector values to ints 1 -> size
  */
 
 MatElement **matrix_identity(int n);
