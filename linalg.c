@@ -4,6 +4,7 @@
  *********************************************************/
 
 #include "linalg.h"
+#include <math.h>
 
 /* Allocate memory space for matrix, all at once */
 MatElement **matrix_alloc(int nr, int nc) {
@@ -88,15 +89,12 @@ MatElement **matrix_identity(int n) {
 
 int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 
-	int k,row,col,pivotCounter, pivotIndex;
+	/* Declare variables */
+	int k,row,col,pivotCounter, pivotIndex, pivotSwapCounter;
 	double pivot, maxPivot;
 
-	fprintf(stdout,"Decomp called\n");
-/*
+	/* iterate once for every row of the matrix */
 	for(k=0;k<dim;k++){
-*/
-		k=0;
-		fprintf(stdout,"This is the %d th iteration\n", k);
 
 		/* Initially set pivotIndex to k, will stay here unless changed */
 		pivotIndex=k;
@@ -105,27 +103,52 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 
 			/* Set pivot to value at kth row, in the set column */
 			pivot=A[pivotCounter][k];
-			if(pivot>maxPivot){
+			if(fabs(pivot)>fabs(maxPivot)){
+				/* Determine the largest value of pivot */
 				maxPivot=pivot;
+
+				/* keep track of row of largest pivot */
 				pivotIndex=pivotCounter;
 			}
 		}
 
+		/* The final pivot is equal to the largest value */
 		pivot=maxPivot;
 
+		matrix_print(A," %g ", dim, dim);
+
+		/* Only perform swap operations if necessary. I.E.
+		   the iteration row is not equal to the row of largest index */
 		if(k!=pivotIndex){
 			fprintf(stdout,"swaps need to be made between %d and %d\n",k,pivotIndex);
+
+			/* swap elements in rows k and pivot index */
+			for(pivotSwapCounter=0;pivotSwapCounter<dim+1;pivotSwapCounter++){
+
+				double temp;
+				temp=A[k][pivotSwapCounter];
+				A[k][pivotSwapCounter]=A[pivotIndex][pivotSwapCounter];
+				A[pivotIndex][pivotSwapCounter]=temp;
+
+			}
+
+			/* Swap the kth and pivotIndex(th) values of the perm vector */
+			int tempVectorValue;
+			tempVectorValue=p[k];
+			p[k]=p[pivotIndex];
+			p[pivotIndex]=tempVectorValue;
 		}
 
-
+		vector_print(p," %d ", dim);
 
 		fprintf(stdout, "Pivot set to: %g\n", pivot);
 
+		/* Set the in-place "pivot factor" */
 		for(row=k+1;row<dim;row++){
-			fprintf(stdout,"Row is: %d",row);
 			A[row][k]=A[row][k]/pivot;
 		}
 
+		/* Go through each row and perform factor based operations */
 		for(row=k+1;row<dim;row++){
 
 			for(col=k+1;col<dim+1;col++){
@@ -133,12 +156,12 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 			}
 
 		}
-/*
+
+		matrix_print(A," %g ", dim, dim);
+
 	}
-*/
 
 	return 0;
-
 
 
 }

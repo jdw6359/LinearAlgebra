@@ -87,18 +87,8 @@ int main(int argc, char *argv[]){
 			}
 			/* End for over rows */
 
-			fprintf(stdout,"Original matrix:\n");
-
-			/* Print original matrix and vector */
-			matrix_print(matrix, " %g ", numRows, numCols);
-
 			/* make call to decomp */
 			linalg_LU_decomp(matrix,vector,numRows);
-
-			fprintf(stdout,"New matrix: \n");
-
-			/* Print new matrix */
-			matrix_print(matrix, " %g ", numRows,numCols);
 
 
 			fprintf(stdout,"Freeing matrix\n");
