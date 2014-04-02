@@ -21,7 +21,8 @@ int main(int argc, char *argv[]){
 	MatElement **matrix;
 
 	/* Declare pointer to vector */
-	VectorElement *vector;
+	VectorElement *perm, *solved;
+
 
 	/* Declare row and column values to loop over rows / cols */
 	int rowCounter, colCounter;
@@ -59,11 +60,13 @@ int main(int argc, char *argv[]){
 			matrix=matrix_alloc(numRows,numCols+1);
 
 			/* Call vector_alloc to allocate memory for vector */
-			vector=vector_alloc(numRows);
+			perm=vector_alloc(numRows);
+			solved=vector_alloc(numRows);
 
 			/* Call perm_vector_initialize to initialize values of
 			   perm vector used in the elimination process */
-			perm_vector_initialize(vector, numRows);
+			vector_initialize(perm, numRows, 1);
+			vector_initialize(solved, numRows, 0);
 
 			/* For each row, read in value for each column, in
 			 * addition to permutation value at end of row */
@@ -87,16 +90,32 @@ int main(int argc, char *argv[]){
 			}
 			/* End for over rows */
 
+			fprintf(stdout, "Original Matrix: \n");
+			matrix_print(matrix, " %g ", numRows, numCols);
+
+			vector_print(perm, " %d ", numRows);
+
 			/* make call to decomp */
-			linalg_LU_decomp(matrix,vector,numRows);
+			linalg_LU_decomp(matrix,perm,numRows);
+
+			fprintf(stdout, "Matrix after decomposition \n");
+			matrix_print(matrix, " %g ", numRows, numCols);
+			vector_print(perm, " %d ", numRows);
+
+
+			/* make call to solve */
+
+			linalg_LU_solve(matrix,perm,solved);
+
+
 
 
 			fprintf(stdout,"Freeing matrix\n");
 			matrix_free(matrix);
 
 			fprintf(stdout,"Freeing vector\n");
-			vector_free(vector);
-
+			vector_free(perm);
+			vector_free(solved);
 
 		}
 		/* End check for valid input file */

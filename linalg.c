@@ -66,14 +66,22 @@ void vector_print(VectorElement *v, char * format, int size){
 }
 
 /* Initialize the values in the permutation vector from values 1 -> size */
-void perm_vector_initialize(VectorElement *v, int size){
+void vector_initialize(VectorElement *v, int size, int flag){
 
 	/* Declare counter */
 	int i;
 
 	/* Set values of vector from 1 -> size */
 	for(i=0;i<size;i++){
-		v[i]=(i+1);
+
+		/* Flag is 1 if this is a perm vector,
+                   is 0 where values are to be initialized
+                   to 0 */
+		if(flag==1){
+			v[i]=(i+1);
+		}else{
+			v[i]=0;
+		}
 	}
 
 }
@@ -90,7 +98,7 @@ MatElement **matrix_identity(int n) {
 int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 
 	/* Declare variables */
-	int k,row,col,pivotCounter, pivotIndex, pivotSwapCounter;
+	int k,row,col,pivotCounter, pivotIndex, pivotSwapCounter, tempVectorValue;
 	double pivot, maxPivot;
 
 	/* iterate once for every row of the matrix */
@@ -115,12 +123,9 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 		/* The final pivot is equal to the largest value */
 		pivot=maxPivot;
 
-		matrix_print(A," %g ", dim, dim);
-
 		/* Only perform swap operations if necessary. I.E.
 		   the iteration row is not equal to the row of largest index */
 		if(k!=pivotIndex){
-			fprintf(stdout,"swaps need to be made between %d and %d\n",k,pivotIndex);
 
 			/* swap elements in rows k and pivot index */
 			for(pivotSwapCounter=0;pivotSwapCounter<dim+1;pivotSwapCounter++){
@@ -133,15 +138,10 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 			}
 
 			/* Swap the kth and pivotIndex(th) values of the perm vector */
-			int tempVectorValue;
 			tempVectorValue=p[k];
 			p[k]=p[pivotIndex];
 			p[pivotIndex]=tempVectorValue;
 		}
-
-		vector_print(p," %d ", dim);
-
-		fprintf(stdout, "Pivot set to: %g\n", pivot);
 
 		/* Set the in-place "pivot factor" */
 		for(row=k+1;row<dim;row++){
@@ -157,8 +157,6 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 
 		}
 
-		matrix_print(A," %g ", dim, dim);
-
 	}
 
 	return 0;
@@ -172,7 +170,7 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
  * permutaion vector p that defines the permutation matrix P
  */
 
-int linalg_LU_solve(MatElement **A, MatElement **p, MatElement **b, MatElement **x){
+int linalg_LU_solve(MatElement **A, VectorElement *p, VectorElement *x){
 
 	fprintf(stdout, "solve called\n");
 	return 0;
