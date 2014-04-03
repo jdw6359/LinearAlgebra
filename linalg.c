@@ -153,9 +153,69 @@ int linalg_LU_decomp(MatElement **A, MatElement **p, int dim){
  * permutaion vector p that defines the permutation matrix P
  */
 
-int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElement *x){
+int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElement *x, int size){
 
-	fprintf(stdout, "solve called\n");
+
+	/* b represents the right hand side matrix, and x represents
+	 * the matrix that we will be putting the values of x into
+	 */
+
+
+	/* Declare variables here */
+	int vectorLooper, k, innerK, permLooper, permIndex;
+
+	VectorElement *f;
+
+	f=vector_alloc(size);
+
+	for(vectorLooper=0;vectorLooper<size;vectorLooper++){
+		f[vectorLooper]=0;
+	}
+
+	/* Set values of vector F here. F represents the intermediate
+	 * values obtained by L(Ux)=b, forward substitution
+	 */
+
+	for(k=0;k<size;k++){
+		double fValue;
+
+		/* get index into right vector */
+		for(permLooper=0;permLooper<size;permLooper++){
+			if(p[k][permLooper]==1){
+				/* Set index to permLooper */
+				permIndex=permLooper;
+			}
+		}
+
+		/* get access to f value */
+		fValue=b[permIndex];
+
+		/* continually decrement fValue by
+		 * values of matrix in row k and columns prior to k
+		 */
+		for(innerK=0;innerK<k;innerK++){
+			fValue=fValue -(A[k][innerK] * f[innerK]) ;
+		}
+		f[k]=fValue;
+	}
+
+	fprintf(stdout,"\nF vector: \n");
+	vector_print(f," %g ", size);
+
+
+
+
+
+	/* Set values of vector x here. x is the vector that contains
+	 * the values of x that we will provide as a solution
+	 */
+
+
+
+
+
+
+
 	return 0;
 }
 /* Finds the solution to the system Ax=b given packed LU matrix

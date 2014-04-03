@@ -88,42 +88,41 @@ int main(int argc, char *argv[]){
 				}
 				/* End for over cols */
 
-
 				/* Grab the value for matrix at right[rowCounter] */
 				fscanf(inputFile, "%lf", &rightValue);
 
 				/*  Set right value at right[rowCounter] */
 				right[rowCounter]=rightValue;
 
-
 			}
 			/* End for over rows */
 
 			fprintf(stdout, "Original Matrix: \n");
 			matrix_print(matrix, " %g ", numRows, numCols);
-			matrix_print(perm, " %g ", numRows, numCols);
 
+			fprintf(stdout, "\nRight hand side vector:\n");
+			vector_print(right, " %g ", numRows);
+
+			fprintf(stdout, "\nPermutation Matrix: \n");
+			matrix_print(perm, " %g ", numRows, numCols);
 
 			/* make call to decomp */
 			linalg_LU_decomp(matrix,perm,numRows);
 
 			fprintf(stdout, "Matrix after decomposition \n");
 			matrix_print(matrix, " %g ", numRows, numCols);
+
+			fprintf(stdout, "\nPermuation after decomposition \n");
 			matrix_print(perm, " %g ", numRows, numCols);
 
-
 			/* make call to solve */
+			linalg_LU_solve(matrix,perm,right,solution, numRows);
 
-			linalg_LU_solve(matrix,perm,right,solution);
-
-
-
-
-			fprintf(stdout,"Freeing matrix\n");
+			fprintf(stdout,"Freeing matrices\n");
 			matrix_free(matrix);
 			matrix_free(perm);
 
-			fprintf(stdout,"Freeing vector\n");
+			fprintf(stdout,"Freeing vectors\n");
 			vector_free(solution);
 
 		}
