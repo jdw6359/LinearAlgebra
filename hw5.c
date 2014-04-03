@@ -18,10 +18,10 @@ int main(int argc, char *argv[]){
 	int numRows, numCols;
 
 	/* Declare pointer to matrix */
-	MatElement **matrix;
+	MatElement **matrix, **perm;
 
 	/* Declare pointer to vector */
-	VectorElement *perm, *solved;
+	VectorElement  *solution, *right;
 
 
 	/* Declare row and column values to loop over rows / cols */
@@ -57,23 +57,24 @@ int main(int argc, char *argv[]){
 			}
 
 			/* Call matrix_alloc to allocate memory for matrix */
-			matrix=matrix_alloc(numRows,numCols+1);
+			matrix=matrix_alloc(numRows,numCols);
+			perm=matrix_identity(numRows);
 
 			/* Call vector_alloc to allocate memory for vector */
-			perm=vector_alloc(numRows);
-			solved=vector_alloc(numRows);
+			right=vector_alloc(numRows);
+			solution=vector_alloc(numRows);
 
-			/* Call perm_vector_initialize to initialize values of
-			   perm vector used in the elimination process */
-			vector_initialize(perm, numRows, 1);
-			vector_initialize(solved, numRows, 0);
+
 
 			/* For each row, read in value for each column, in
 			 * addition to permutation value at end of row */
 			for(rowCounter=0;rowCounter<numRows;rowCounter++){
 
+				/* Declare variable for right hand side */
+				double rightValue;
+
 				/* Loop over cols of each row */
-				for(colCounter=0;colCounter<numCols+1;colCounter++){
+				for(colCounter=0;colCounter<numCols;colCounter++){
 
 					/* Declare variable for value stored in amtrix */
 					double matValue;
@@ -87,35 +88,43 @@ int main(int argc, char *argv[]){
 				}
 				/* End for over cols */
 
+
+				/* Grab the value for matrix at right[rowCounter] */
+				fscanf(inputFile, "%lf", &rightValue);
+
+				/*  Set right value at right[rowCounter] */
+				right[rowCounter]=rightValue;
+
+
 			}
 			/* End for over rows */
 
 			fprintf(stdout, "Original Matrix: \n");
 			matrix_print(matrix, " %g ", numRows, numCols);
+			matrix_print(perm, " %g ", numRows, numCols);
 
-			vector_print(perm, " %d ", numRows);
 
 			/* make call to decomp */
 			linalg_LU_decomp(matrix,perm,numRows);
 
 			fprintf(stdout, "Matrix after decomposition \n");
 			matrix_print(matrix, " %g ", numRows, numCols);
-			vector_print(perm, " %d ", numRows);
+			matrix_print(perm, " %g ", numRows, numCols);
 
 
 			/* make call to solve */
 
-			linalg_LU_solve(matrix,perm,solved);
+			linalg_LU_solve(matrix,perm,right,solution);
 
 
 
 
 			fprintf(stdout,"Freeing matrix\n");
 			matrix_free(matrix);
+			matrix_free(perm);
 
 			fprintf(stdout,"Freeing vector\n");
-			vector_free(perm);
-			vector_free(solved);
+			vector_free(solution);
 
 		}
 		/* End check for valid input file */

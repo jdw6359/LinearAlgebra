@@ -49,10 +49,9 @@ void matrix_print(MatElement **A, char * format, int nr, int nc) {
 	for (i=0; i<nr; i++) {
 		for (j=0; j<nc; j++){
 			fprintf(stdout,format, A[i][j]);
+
 		}
-		/* Print out a pipe character as well as the value in the
-		   "Solution" vector */
-		fprintf(stdout," | %g\n", A[i][nc]);
+		fprintf(stdout, "\n");
 	}
 }
 
@@ -65,26 +64,6 @@ void vector_print(VectorElement *v, char * format, int size){
 	fprintf(stdout,"\n");
 }
 
-/* Initialize the values in the permutation vector from values 1 -> size */
-void vector_initialize(VectorElement *v, int size, int flag){
-
-	/* Declare counter */
-	int i;
-
-	/* Set values of vector from 1 -> size */
-	for(i=0;i<size;i++){
-
-		/* Flag is 1 if this is a perm vector,
-                   is 0 where values are to be initialized
-                   to 0 */
-		if(flag==1){
-			v[i]=(i+1);
-		}else{
-			v[i]=0;
-		}
-	}
-
-}
 
 /* Create and Identity Matrix */
 MatElement **matrix_identity(int n) {
@@ -95,10 +74,10 @@ MatElement **matrix_identity(int n) {
   return A;
 }
 
-int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
+int linalg_LU_decomp(MatElement **A, MatElement **p, int dim){
 
 	/* Declare variables */
-	int k,row,col,pivotCounter, pivotIndex, pivotSwapCounter, tempVectorValue;
+	int k,row,col,pivotCounter, pivotIndex, pivotSwapCounter;
 	double pivot, maxPivot;
 
 	/* iterate once for every row of the matrix */
@@ -128,19 +107,23 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 		if(k!=pivotIndex){
 
 			/* swap elements in rows k and pivot index */
-			for(pivotSwapCounter=0;pivotSwapCounter<dim+1;pivotSwapCounter++){
+			for(pivotSwapCounter=0;pivotSwapCounter<dim;pivotSwapCounter++){
 
-				double temp;
+				double temp, tempPermValue;
 				temp=A[k][pivotSwapCounter];
 				A[k][pivotSwapCounter]=A[pivotIndex][pivotSwapCounter];
 				A[pivotIndex][pivotSwapCounter]=temp;
 
+
+				/* Swap each col value for the kth and pivotIndex(th) rows of the perm matrix */
+				tempPermValue=p[k][pivotSwapCounter];
+				p[k][pivotSwapCounter]=p[pivotIndex][pivotSwapCounter];
+				p[pivotIndex][pivotSwapCounter]=tempPermValue;
+
 			}
 
-			/* Swap the kth and pivotIndex(th) values of the perm vector */
-			tempVectorValue=p[k];
-			p[k]=p[pivotIndex];
-			p[pivotIndex]=tempVectorValue;
+
+
 		}
 
 		/* Set the in-place "pivot factor" */
@@ -151,7 +134,7 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
 		/* Go through each row and perform factor based operations */
 		for(row=k+1;row<dim;row++){
 
-			for(col=k+1;col<dim+1;col++){
+			for(col=k+1;col<dim;col++){
 				A[row][col]=A[row][col] - A[row][k] * A[k][col];
 			}
 
@@ -170,7 +153,7 @@ int linalg_LU_decomp(MatElement **A, VectorElement *p, int dim){
  * permutaion vector p that defines the permutation matrix P
  */
 
-int linalg_LU_solve(MatElement **A, VectorElement *p, VectorElement *x){
+int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElement *x){
 
 	fprintf(stdout, "solve called\n");
 	return 0;
