@@ -204,6 +204,30 @@ int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElem
 
 
 
+	for(k=size-1;k>=0;k--){
+		double xValue;
+		/* get the initial x value from f[k] */
+
+		xValue=f[k];
+
+		fprintf(stdout, "Initial value: %g\n", xValue);
+
+		for(innerK=size-1;innerK>k;innerK--){
+			/* this is where the subtraction will take place */
+			xValue=xValue - (x[innerK] *A[k][innerK]);
+		}
+
+		/* Perform the division here */
+		xValue=xValue / A[k][k];
+
+		/* Set the value of x[k] here */
+		x[k]=xValue;
+		fprintf(stdout, "X value: %g\n", xValue);
+	}
+
+
+
+
 
 
 	/* Set values of vector x here. x is the vector that contains

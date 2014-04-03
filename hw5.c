@@ -118,12 +118,18 @@ int main(int argc, char *argv[]){
 			/* make call to solve */
 			linalg_LU_solve(matrix,perm,right,solution, numRows);
 
+
+			vector_print(solution, " %g ", numRows);
+
+
 			fprintf(stdout,"Freeing matrices\n");
 			matrix_free(matrix);
 			matrix_free(perm);
 
 			fprintf(stdout,"Freeing vectors\n");
 			vector_free(solution);
+
+
 
 		}
 		/* End check for valid input file */
