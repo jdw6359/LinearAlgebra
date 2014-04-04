@@ -85,7 +85,7 @@ int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElem
  * vector x.
  */
 
-void print_plu(MatElement **A, MatElement **p);
+void print_plu(MatElement **A, MatElement **p, int size);
 /* "unpack" the matrices L,U, and P, and print them as well */
 
 #endif

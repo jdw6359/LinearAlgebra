@@ -109,6 +109,9 @@ int main(int argc, char *argv[]){
 			/* make call to decomp */
 			linalg_LU_decomp(matrix,perm,numRows);
 
+			print_plu(matrix, perm, numRows);
+
+
 			fprintf(stdout, "Matrix after decomposition \n");
 			matrix_print(matrix, " %g ", numRows, numCols);
 

@@ -199,18 +199,11 @@ int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElem
 		f[k]=fValue;
 	}
 
-	fprintf(stdout,"\nF vector: \n");
-	vector_print(f," %g ", size);
-
-
-
 	for(k=size-1;k>=0;k--){
 		double xValue;
 		/* get the initial x value from f[k] */
 
 		xValue=f[k];
-
-		fprintf(stdout, "Initial value: %g\n", xValue);
 
 		for(innerK=size-1;innerK>k;innerK--){
 			/* this is where the subtraction will take place */
@@ -222,23 +215,11 @@ int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElem
 
 		/* Set the value of x[k] here */
 		x[k]=xValue;
-		fprintf(stdout, "X value: %g\n", xValue);
 	}
-
-
-
-
-
 
 	/* Set values of vector x here. x is the vector that contains
 	 * the values of x that we will provide as a solution
 	 */
-
-
-
-
-
-
 
 	return 0;
 }
@@ -249,9 +230,48 @@ int linalg_LU_solve(MatElement **A, MatElement **p, VectorElement *b, VectorElem
  * the solution in vector x.
  */
 
-void print_plu(MatElement **A, MatElement **p){
+void print_plu(MatElement **A, MatElement **p, int size){
 
-	fprintf(stdout, "print called\n");
+	int k, innerK;
+
+	fprintf(stdout, "\nPrinting L Matrix: \n");
+
+	for(k=0;k<size;k++){
+		for(innerK=0;innerK<size;innerK++){
+			if(k==innerK){
+				fprintf(stdout," 1 ");
+			}else if(innerK>k){
+				fprintf(stdout," 0 ");
+			}else{
+				fprintf(stdout," %g ",A[k][innerK]);
+			}
+		}
+		fprintf(stdout,"\n");
+	}
+
+	fprintf(stdout, "\nPrinting U Matrix: \n");
+
+	for(k=0;k<size;k++){
+		for(innerK=0;innerK<size;innerK++){
+			if(innerK<k){
+				fprintf(stdout," 0 ");
+			}else{
+				fprintf(stdout," %g ", A[k][innerK]);
+			}
+		}
+		fprintf(stdout,"\n");
+
+	}
+
+	fprintf(stdout, "\nPrinting Permutation Matrix: \n");
+
+	for(k=0;k<size;k++){
+		for(innerK=0;innerK<size;innerK++){
+			fprintf(stdout," %g ",p[k][innerK]);
+		}
+		fprintf(stdout,"\n");
+	}
+
 
 }
 /* unpack the matrices L, U, and P, and print them as well */
