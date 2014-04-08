@@ -26,10 +26,10 @@ linalg.o: linalg.c
 	$(CC) $(CFLAGS) -c linalg.c
 
 gsl_sample: gsl_sample.o
-	$(CC) $(CFLAGS) -o gsl_sample gsl_sample.o $(GSLFLAGS)
+	$(CC) -o gsl_sample gsl_sample.o $(GSLFLAGS)
 
 gsl_sample.o: gsl_sample.c
-	$(CC) $(CFLAGS) -c gsl_sample.c
+	$(CC) -c gsl_sample.c
 
 
 ############ Block used for execution of programs
